@@ -1,0 +1,31 @@
+﻿@model IEnumerable<ApplicationUser>
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<div class="mt-5">
+    <table class="table table-bordered border-primary">
+        <tbody>
+            <tr class="border-1 border-primary fw-bold fs-5" style="border-right: none; border-left: none;">
+                <td>Full Name</td>
+                <td>Username</td>
+                <td>Email address</td>
+                <td>User transactions</td>
+            </tr>
+            @foreach (var user in Model)
+            {
+                <tr class="border-1 border-primary" style="border-right: none; border-left: none;">
+                    <td>@user.FullName</td>
+                    <td>@user.UserName</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm rounded-3" asp-controller="Orders" asp-action="GetUserData" asp-route-id="@user.Id">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

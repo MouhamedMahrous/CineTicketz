@@ -1,0 +1,21 @@
+﻿@using CineTicketz.Data.Enums
+@using CineTicketz.Settings
+@model Cinema
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="card border-primary rounded-4 mt-5 overflow-hidden">
+    <div class="card-body p-0">
+        <div class="row">
+            <div class="col-md-8 p-4">
+                <h1 class="fw-bolder mb-4">@Model.Name</h1>
+                <p style="max-width: 75%">@Model.Description</p>
+            </div>
+            <div class="col-md-4">
+                <img src="@($"{FileSettings.ImagesPath}/{Model.Logo}")" alt="@Model.Name" class="h-100 w-100" />
+            </div>
+        </div>
+    </div>
+</div>

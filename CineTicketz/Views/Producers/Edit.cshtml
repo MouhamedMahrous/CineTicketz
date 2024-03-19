@@ -1,0 +1,45 @@
+﻿@using CineTicketz.Settings
+@model CineTicketz.ViewModels.EditActorFormViewModel;
+
+@{
+    ViewData["Title"] = Model.FullName;
+}
+
+<h5 class="mt-5">
+    <i class="bi bi-plus-circle-dotted"></i>
+    Edit actor
+</h5>
+
+<form asp-controller="Producers" enctype="multipart/form-data">
+    <div class="row">
+        <div class="d-flex justify-content-center">
+            <img src="@($"{FileSettings.ImagesPath}/{Model.CurrentProfilePecture}")" alt="@Model.FullName" style="width:400px; height:400px; border-radius:50%" />
+        </div>
+        <div>
+            <label asp-for="FullName" class="form-label mt-4"></label>
+            <input type="text" class="form-control" asp-for="FullName" placeholder="Enter an actor name">
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="Bio" class="form-label mt-4"></label>
+            <textarea class="form-control" asp-for="Bio" placeholder="Description"></textarea>
+            <span asp-validation-for="Bio" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="ProfilePicture" class="form-label mt-4"></label>
+            <input type="file" class="form-control" asp-for="ProfilePicture"
+                   data-rule-extension="jpg,png,jpeg"
+                   data-msg-extension="Not allowed extention">
+            <small class="form-text text-muted d-block">Only .jpg, .jpeg, .png files are allowed</small>
+            <span asp-validation-for="ProfilePicture" class="text-danger"></span>
+        </div>
+        <div class="row mt-5 d-flex justify-content-center">
+            <button type="submit" class="btn btn-light text-black col-3">Submit</button>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

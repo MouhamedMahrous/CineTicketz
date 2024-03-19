@@ -1,0 +1,50 @@
+﻿@model CineTicketz.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+
+<form asp-controller="Accounts" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
+            <h2 class="alert alert-primary my-5 rounded-3 text-center">Register New Account</h2>
+
+            @if (TempData["Error"] is not null)
+            {
+                <p class="text-danger my-5 rounded-3 text-center">@TempData["Error"]</p>
+            }
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div>
+                <label asp-for="FullName" class="form-label text-white fw-bolder"></label>
+                <input class="form-control" asp-for="FullName" placeholder="Enter your full name">
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="mt-4">
+                <label asp-for="EmailAddress" class="form-label text-white fw-bolder"></label>
+                <input class="form-control" asp-for="EmailAddress" placeholder="Enter your email">
+                <span asp-validation-for="EmailAddress" class="text-danger"></span>
+            </div>
+            <div class="my-4">
+                <label asp-for="Password" class="form-label text-white fw-bolder"></label>
+                <input class="form-control" asp-for="Password" placeholder="Enter your password">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div>
+                <label asp-for="ConfirmPassword" class="form-label text-white fw-bolder"></label>
+                <input class="form-control" asp-for="ConfirmPassword" placeholder="Confirm your password">
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary fw-bolder text-white my-5 w-100">Register</button>
+                <a asp-controller="Movies" asp-action="Index" class="btn btn-danger fw-bolder text-white w-100">Cancel</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

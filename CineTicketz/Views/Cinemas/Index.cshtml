@@ -1,0 +1,55 @@
+﻿@using CineTicketz.Settings
+@model IEnumerable<Cinema>
+
+@{
+    ViewData["Title"] = "Cinemas";
+}
+
+<a class="btn btn-secondary btn-lg mt-5" asp-action="Create">
+    <i class="bi bi-plus-circle-dotted"></i>
+    Add Cinema
+</a>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning mt-5">
+        <h4 class="alert-heading">No Cinemas!</h4>
+        <p class="mb-0">No cinemas were added yet.</p>
+    </div>
+}
+else
+{
+    <div class="mt-5">
+        <table class="table table-bordered border-primary">
+            <tbody>
+                @foreach (var cinema in Model)
+                {
+                    <tr class="border-1 border-primary" style="border-right: none; border-left: none;">
+                        <td>
+                            <img src="@($"{FileSettings.ImagesPath}/{cinema.Logo}")" alt="@cinema.Name" style="width: 150px; height: 150px; border-radius: 50%;" />
+                        </td>
+                        <td>
+                            <div class="d-flex flex-column justify-content-center">
+                                <h4 class="text-light">@cinema.Name</h4>
+                                <p style="max-width:700px;">@cinema.Description</p>
+                            </div>
+                        </td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <a asp-action="Details" asp-route-id="@cinema.Id" class="btn btn-success rounded rounded-3 me-2">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@cinema.Id" class="btn btn-info rounded rounded-3 me-2">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@cinema.Id" class="btn btn-danger rounded rounded-3">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

@@ -1,0 +1,73 @@
+﻿@using CineTicketz.Data.Enums
+@using CineTicketz.Settings
+@model IEnumerable<Movie>
+
+@{
+    ViewData["Title"] = "Filtered Movies";
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning mt-5">
+        <h4 class="alert-heading">No Movies!</h4>
+        <p class="mb-0">No movies matches your search.</p>
+    </div>
+}
+else
+{
+    <div class="row mt-5">
+        @foreach (var movie in Model)
+        {
+            <div class="col-lg-3 col-md-6">
+                <div class="card border-primary mb-3 rounded-4 overflow-hidden">
+                    <div class="card-body" style="background-image: url(@($"{FileSettings.ImagesPath}/{movie.ImageURL}"));
+                                                  background-size: cover;
+                                                  background-position: center center;
+                                                  height: 500px">
+
+                        <div class="h-100" style="position: absolute; left: 10px; top: 10px;">
+                            <span class="badge bg-dark rounded-5 fs-7">@movie.MovieCategory</span>
+                        </div>
+                        <div class="h-100 w-100 d-flex justify-content-between align-items-end">
+                            <a asp-action="Delete" asp-route-id="@movie.Id" class="btn btn-outline-danger btn-sm rounded-3 z-3">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                            <a asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-outline-info btn-sm rounded-3">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3>@movie.Name</h3>
+                            <p>@movie.Cinema.Name</p>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="m-0" style="font-size: 12px; opacity: 0.5;">Start Date</p>
+                                <p class="m-0">@movie.StartDate.DayOfWeek.ToString().Substring(0, 3) @movie.StartDate.Day @((Months)movie.StartDate.Month)</p>
+                            </div>
+                            <div>
+                                <p class="m-0" style="font-size: 12px; opacity: 0.5;">Start Date</p>
+                                <p class="m-0">@movie.EndDate.DayOfWeek.ToString().Substring(0, 3) @movie.EndDate.Day @((Months)movie.StartDate.Month)</p>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <div>
+                                <a class="btn btn-secondary btn-sm rounded-3" href="#">
+                                    <i class="bi bi-cart-plus-fill"></i>
+                                    Add to cart | $@movie.Price
+                                </a>
+                            </div>
+                            <div>
+                                <a asp-action="Details" asp-route-id="@movie.Id" class="btn btn-outline-primary btn-sm rounded-3">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

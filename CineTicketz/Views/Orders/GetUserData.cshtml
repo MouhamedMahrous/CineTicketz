@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Order>
+
+@{
+    ViewData["Title"] = "User Orders";
+}
+
+<div class="alert alert-dismissible alert-primary mt-5 rounded-3 text-center">
+    <h3>List of all orders</h3>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning mt-5">
+        <h4 class="alert-heading">No Orders!</h4>
+        <p class="mb-0">this user do not complete any orders yet.</p>
+    </div>
+    <a class="btn btn-secondary btn-lg mt-5" asp-controller="Accounts" asp-action="Users">
+        Back to users
+    </a>
+}
+else
+{
+    <div class="mt-5">
+        <table class="table table-bordered border-primary">
+            <tbody>
+                <tr class="fw-bolder fs-5 border-1 border-primary" style="border-right: none; border-left: none;">
+                    <td>Order ID</td>
+                    <td>Items</td>
+                    <td>Total</td>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <td>User</td>
+                    }
+                </tr>
+
+                @{
+                    int orderId = 1;
+                }
+                @foreach (var order in Model)
+                {
+
+                    <tr class="border-1 border-primary" style="border-right: none; border-left: none;">
+                        <td>@orderId</td>
+                        <td>
+                            @foreach (var item in order.OrderItems)
+                            {
+                                <div class="alert alert-info">
+                                    <span class="badge bg-success mx-3">@item.Amount</span>
+                                    [@item.Movie.Price.ToString("c")]-@item.Movie.Name
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            @order.OrderItems.Select(i => i.Price).Sum().ToString("c")
+                        </td>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <td>@order.User.FullName</td>
+                        }
+                    </tr>
+
+                    orderId++;
+                }
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-between">
+            <a class="btn btn-secondary btn-lg mt-5" asp-controller="Accounts" asp-action="Users">
+                Back to Users
+            </a>
+        </div>
+    </div>
+}

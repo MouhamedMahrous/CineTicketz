@@ -1,0 +1,64 @@
+﻿@using CineTicketz.Data.Enums
+@using CineTicketz.Settings
+@model Movie
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="card border-primary rounded-4 mt-5 overflow-hidden">
+    <div class="card-body p-0">
+        <div class="row">
+            <div class="col-md-8 p-4">
+                <div>
+                    <h1 class="fw-bolder mb-4">@Model.Name</h1>
+                    <p style="max-width: 75%">@Model.Description</p>
+                    <div>
+                        <div class="d-flex align-items-center">
+                            <div style="margin-right: 50%;">
+                                <div class="my-2">
+                                    <p class="m-0" style="opacity: 0.5;">Start Date</p>
+                                    <p class="m-0 fs-5">@Model.StartDate.DayOfWeek.ToString().Substring(0, 3) @Model.StartDate.Day @((Months)Model.StartDate.Month)</p>
+                                </div>
+                                <div class="my-2">
+                                    <p class="m-0" style="opacity: 0.5;">End Date</p>
+                                    <p class="m-0 fs-5">@Model.EndDate.DayOfWeek.ToString().Substring(0, 3) @Model.EndDate.Day @((Months)Model.StartDate.Month)</p>
+                                </div>
+                                <div class="my-2">
+                                    <p class="m-0" style="opacity: 0.5;">Cinema</p>
+                                    <a asp-action="Details" asp-controller="Cinemas" asp-route-id="@Model.CinemaId" class="m-0 fs-5 text-decoration-none text-muted">@Model.Cinema.Name</a>
+                                </div>
+                                <div class="my-2">
+                                    <p class="m-0" style="opacity: 0.5;">Category</p>
+                                    <p class="m-0 fs-5">@Model.MovieCategory</p>
+                                </div>
+                            </div>
+                            <div>
+                                <a asp-action="Details" asp-controller="Producers" asp-route-id="@Model.Producer.Id" class="my-2 d-flex flex-column align-items-center text-decoration-none text-muted">
+                                    <p class="m-0" style="opacity: 0.5;">Producer</p>
+                                    <img src="@($"{FileSettings.ImagesPath}/{Model.Producer.ProfilePictureURL}")" alt="@Model.Producer.FullName" style="width: 150px; height: 150px; border-radius: 20px;" />
+                                    <p>@Model.Producer.FullName</p>
+                                </a>
+                            </div>
+                        </div>
+                        
+
+                        <p class="m-0 text-muted" style="opacity: 0.5; text-align:center">Actors</p>
+                        <div class="my-2 d-flex justify-content-center">
+                            @foreach (var actor in Model.ActorMovies)
+                            {
+                                <a asp-action="Details" asp-controller="Actors" asp-route-id="@actor.Actor.Id" class="mx-1 text-decoration-none text-muted" style="text-align:center;">
+                                    <img src="@($"{FileSettings.ImagesPath}/{actor.Actor.ProfilePictureURL}")" alt="@actor.Actor.FullName" style="width: 150px; height: 150px; border-radius: 50%;" />
+                                    <p>@actor.Actor.FullName</p>
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <img src="@($"{FileSettings.ImagesPath}/{Model.ImageURL}")" alt="@Model.Name" class="h-100 w-100"/>
+            </div>
+        </div>
+    </div>
+</div>

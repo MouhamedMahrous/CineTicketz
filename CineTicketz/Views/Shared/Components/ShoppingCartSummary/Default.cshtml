@@ -1,0 +1,9 @@
+﻿@model int
+
+@if(Model > 0)
+{
+    <a class="btn btn-secondary my-2 my-sm-0" asp-area="" asp-controller="Orders" asp-action="ShopingCart">
+        <i class="bi bi-cart-check-fill"></i>
+        <span>@Model</span>
+    </a>
+}

@@ -1,0 +1,93 @@
+﻿@using CineTicketz.Data.Enums
+@using CineTicketz.Settings
+@model IEnumerable<Movie>
+
+@{
+    ViewData["Title"] = "Movies";
+}
+
+@if(User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <a class="btn btn-secondary btn-lg mt-5" asp-action="Create">
+        <i class="bi bi-plus-circle-dotted"></i>
+        Add Movie
+    </a>
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning mt-5">
+        <h4 class="alert-heading">No Movies!</h4>
+        <p class="mb-0">No Movies were added yet.</p>
+    </div>
+}
+else
+{
+    <div class="row mt-5">
+        @foreach (var movie in Model)
+        {
+            <div class="col-lg-3 col-md-6">
+                <div class="card border-primary mb-3 rounded-4 overflow-hidden">
+                    <div class="card-body" style="background-image: url(@($"{FileSettings.ImagesPath}/{movie.ImageURL}"));
+                                                  background-size: cover;
+                                                  background-position: center center;
+                                                  height: 500px">
+
+                            <div class="h-100" style="position: absolute; left: 10px; top: 10px;">
+                                <span class="badge bg-dark rounded-5 fs-7">@movie.MovieCategory</span>
+                            </div>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <div class="h-100 w-100 d-flex justify-content-between align-items-end">
+                                <a asp-action="Delete" asp-route-id="@movie.Id" class="btn btn-outline-danger btn-sm rounded-3 z-3">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-outline-info btn-sm rounded-3">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </a>
+                            </div>
+                        } 
+                    </div>
+                    <div class="card-footer text-muted">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4>@movie.Name</h4>
+                            <p>@movie.Cinema.Name</p>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="m-0" style="font-size: 12px; opacity: 0.5;">Start Date</p>
+                                <p class="m-0">@movie.StartDate.DayOfWeek.ToString().Substring(0, 3) @movie.StartDate.Day @((Months)movie.StartDate.Month)</p>
+                            </div>
+                            <div>
+                                <p class="m-0" style="font-size: 12px; opacity: 0.5;">Start Date</p>
+                                <p class="m-0">@movie.EndDate.DayOfWeek.ToString().Substring(0, 3) @movie.EndDate.Day @((Months)movie.EndDate.Month)</p>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <div>
+                                @if(User.Identity.IsAuthenticated){
+                                    <a class="btn btn-secondary btn-sm rounded-3" asp-controller="Orders" asp-action="AddItemToShoppingCartFromMoviesIndex" asp-route-id="@movie.Id">
+                                        <i class="bi bi-cart-plus-fill"></i>
+                                        Add to cart | @movie.Price.ToString("c")
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-secondary btn-sm rounded-3" asp-controller="Accounts" asp-action="Login">
+                                        <i class="bi bi-cart-plus-fill"></i>
+                                        Add to cart | @movie.Price.ToString("c")
+                                    </a>
+                                }
+                            </div>
+                            <div>
+                                <a asp-action="Details" asp-route-id="@movie.Id" class="btn btn-outline-primary btn-sm rounded-3">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
