@@ -1,5 +1,6 @@
 ﻿using CineTicketz.Models;
 using CineTicketz.Models.DTOs;
+using CineTicketz.ViewModels;
 
 namespace CineTicketz.Services.IRepositories
 {

@@ -2,6 +2,7 @@
 using CineTicketz.Models;
 using CineTicketz.Models.DTOs;
 using CineTicketz.Services.IRepositories;
+using CineTicketz.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace CineTicketz.Services.Repositories
